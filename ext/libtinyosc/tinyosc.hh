@@ -84,7 +84,7 @@ namespace oscpkt {
 	#endif
 #else
 	// Slower performance
-	#warning using runtime endian check
+	//	#warning using runtime endian check
 	#define PLATFORM_BIG_ENDIAN (*(uint16_t *)"\0\xff" < 0x100)
 #endif
 
