@@ -5,11 +5,16 @@
 #include <stdarg.h>
 
 #if (_MSC_VER >= 1600)
+
 #include <windows.h>
 #include "ext/phidget21-windevel/phidget21.h"
 #pragma comment(lib, "ext/phidget21-windevel/x64/phidget21.lib")
+
 #else
+
+#include <unistd.h>
 #include <phidget21.h>
+
 #endif
 
 
