@@ -6,8 +6,8 @@
 
 #if (_MSC_VER >= 1600)
 #include <windows.h>
-#include "lib/phidget21.h"
-#pragma comment(lib, "lib/x86/phidget21.lib")
+#include "ext/phidget21-windevel/phidget21.h"
+#pragma comment(lib, "ext/phidget21-windevel/x64/phidget21.lib")
 #else
 #include <phidget21.h>
 #endif
