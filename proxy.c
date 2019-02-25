@@ -4,8 +4,13 @@
 #include <stdlib.h>
 #include <stdarg.h>
 
+#if (_MSC_VER >= 1600)
+#include <windows.h>
+#include "lib/phidget21.h"
+#pragma comment(lib, "lib/x86/phidget21.lib")
+#else
 #include <phidget21.h>
-
+#endif
 
 
 void osc_send(char *address, int i1, int i2) {
@@ -101,7 +106,11 @@ int main(int argc, char* argv[])
 
     while(1) {
         printf("Chilling...\n");
+#if (_MSC_VER >= 1600)
+        Sleep(2000);
+#else
         sleep(2);
+#endif
     }
 
     for(int i=0; i<numdevices; i++) {
