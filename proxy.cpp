@@ -17,16 +17,37 @@
 
 #endif
 
+#include <iostream>
+#define OSCPKT_OSTREAM_OUTPUT
+#include "ext/libtinyosc/tinyosc.hh"
+#include "ext/libtinyosc/oscudp.hh"
 
-void osc_send(char *address, int i1, int i2) {
-    printf("OSC: Send [%d, %d] to \"%s\"\n", i1, i2, address);
+using namespace oscpkt;
+
+UdpSocket oscsock;
+
+void osc_send(const char *address, int i1, int i2) {
+    Message msg(address);
+    msg.pushInt32(i1);
+    msg.pushInt32(i2);
+
+    PacketWriter pw;
+    pw.startBundle().startBundle().addMessage(msg).endBundle().endBundle();
+
+    bool ok = oscsock.sendPacket(pw.packetData(), pw.packetSize());
+    printf("OSC: Sent [%d, %d] to \"%s\" (%d)\n", i1, i2, address, ok);
 }
 
-void osc_init(int port) {
-    printf("OSC: Using port #%d\n", port);
+void osc_init(const char *host, int port) {
+    printf("OSC: Using \"%s:%d\"\n", host, port);
+	oscsock.connectTo(host, port);
+    if (!oscsock.isOk()) {
+		printf("OSC: Failed to open port: %s", oscsock.errorMessage().c_str());
+	};
 }
 
 void osc_kill() {
+    oscsock.close();
 }
 
 
@@ -95,17 +116,18 @@ int main(int argc, char* argv[])
 {
     CPhidgetEncoderHandle handles[100] = { 0, };
 
-    if (argc < 3) {
-        printf("Syntax: phidget-encoder-osc-proxy [OSC PORT] [Phidget encoder serial number 1] {Phidget encoder serial number 2} ...");
+    if (argc < 4) {
+        printf("Syntax: phidget-encoder-osc-proxy [OSC Hostname] [OSC Port] [Phidget encoder serial number 1] {Phidget encoder serial number 2} ...");
         return 1;
     }
 
-    int oscport = atoi(argv[1]);
-    osc_init(oscport);
+    const char *oscip = argv[1];
+    int oscport = atoi(argv[2]);
+    osc_init(oscip, oscport);
 
-    int numdevices = argc - 2;
+    int numdevices = argc - 3;
     for(int i=0; i<numdevices; i++) {
-        int serialnum = atoi(argv[2 + i]);
+        int serialnum = atoi(argv[3 + i]);
         handles[i] = start_listening(serialnum);
     }
 
