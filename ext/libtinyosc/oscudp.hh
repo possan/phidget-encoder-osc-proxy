@@ -402,7 +402,7 @@ namespace oscpkt {
 				port.empty()? 0 : port.c_str(), &hints, &result);
 
 			if (err != 0) {
-				setErr(gai_strerror(err));
+				// setErr(gai_strerror(err));
 				return false;
 			}
 

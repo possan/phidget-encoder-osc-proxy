@@ -4,6 +4,20 @@
 #include <stdlib.h>
 #include <stdarg.h>
 
+
+#if (_MSC_VER >= 1600)
+
+// #define __ORDER_BIG_ENDIAN__=123
+// #define __BYTE_ORDER__=__ORDER_LITTLE_ENDIAN__
+
+#endif
+
+#include <iostream>
+#define OSCPKT_OSTREAM_OUTPUT
+#include "ext/libtinyosc/tinyosc.hh"
+#include "ext/libtinyosc/oscudp.hh"
+
+
 #if (_MSC_VER >= 1600)
 
 #include <windows.h>
@@ -16,11 +30,6 @@
 #include <phidget21.h>
 
 #endif
-
-#include <iostream>
-#define OSCPKT_OSTREAM_OUTPUT
-#include "ext/libtinyosc/tinyosc.hh"
-#include "ext/libtinyosc/oscudp.hh"
 
 using namespace oscpkt;
 
