@@ -12,8 +12,6 @@ OSX:
 * Run `./proxy`
 
 Windows:
-* Download Phidget21 libraries (See [these docs](https://www.phidgets.com/docs21/Language_-_C))
-* And put in `lib/` folder.
 * Put `phidget21.dll` in the project folder
 * Open `looper.vcxproj` in Visual Studio
-* Build and run.
+* Hit F5.

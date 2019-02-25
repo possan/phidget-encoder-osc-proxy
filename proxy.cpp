@@ -57,7 +57,7 @@ int CCONV ErrorHandler(CPhidgetHandle ENC, void *userptr, int ErrorCode, const c
 int CCONV PositionChangeHandler(CPhidgetEncoderHandle ENC, void *usrptr, int Index, int Time, int RelativePosition) {
     int Position;
     int serialNo;
-    CPhidget_getSerialNumber(ENC, &serialNo);
+    CPhidget_getSerialNumber((CPhidgetHandle)ENC, &serialNo);
     CPhidgetEncoder_getPosition(ENC, Index, &Position);
     // printf("Serial #%d - Encoder #%i - Position: %5d -- (Relative %2d)\n", serialNo, Index, Position, RelativePosition);
     char addr[100];
@@ -88,7 +88,7 @@ CPhidgetEncoderHandle start_listening(int serialnumber) {
 
 int main(int argc, char* argv[])
 {
-    CPhidgetHandle handles[100] = { 0, };
+    CPhidgetEncoderHandle handles[100] = { 0, };
 
     if (argc < 3) {
         printf("Syntax: phidget-encoder-osc-proxy [OSC PORT] [Phidget encoder serial number 1] {Phidget encoder serial number 2} ...");
